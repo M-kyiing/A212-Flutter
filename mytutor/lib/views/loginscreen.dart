@@ -232,13 +232,13 @@ class _LoginPageState extends State<LoginPage> {
           //User user = User.fromJson(data['data']);
 
           Fluttertoast.showToast(
-              msg: "Success",
+              msg: "Login Success",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 16.0);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (content) => RegisterSc()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (content) => const LoginPage()));
         } else {
           Fluttertoast.showToast(
               msg: "Failed",
