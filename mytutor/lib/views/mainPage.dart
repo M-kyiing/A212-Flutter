@@ -1,18 +1,11 @@
-import 'dart:convert';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:mytutor/constant.dart';
-import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:mytutor/views/subjectpage.dart';
 import 'package:mytutor/views/subscribe.dart';
 import 'package:mytutor/views/tutorProfile.dart';
 import 'package:mytutor/views/userprofile.dart';
-import '../model/subject.dart';
 import 'favPage.dart';
 
 class MainPage extends StatefulWidget {
@@ -68,28 +61,28 @@ class _MainPageState extends State<MainPage> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-              title: Text('Subjects'),
-              icon: FaIcon(FontAwesomeIcons.bookOpen),
+              title: const Text('Subjects'),
+              icon: const FaIcon(FontAwesomeIcons.bookOpen),
               activeColor: HexColor('#457b9d'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
-              title: Text('Tutors'),
-              icon: FaIcon(FontAwesomeIcons.chalkboardUser),
+              title: const Text('Tutors'),
+              icon: const FaIcon(FontAwesomeIcons.chalkboardUser),
               activeColor: HexColor('#457b9d'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
-              title: Text('Subscribe'),
-              icon: FaIcon(FontAwesomeIcons.bookMedical),
+              title: const Text('Subscribe'),
+              icon: const FaIcon(FontAwesomeIcons.bookMedical),
               activeColor: HexColor('#457b9d'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
-              title: Text('Favourite'),
-              icon: FaIcon(FontAwesomeIcons.heartCirclePlus),
+              title: const Text('Favourite'),
+              icon: const FaIcon(FontAwesomeIcons.heartCirclePlus),
               activeColor: HexColor('#457b9d'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
-              title: Text('Profile'),
-              icon: FaIcon(FontAwesomeIcons.user),
+              title: const Text('Profile'),
+              icon: const FaIcon(FontAwesomeIcons.user),
               activeColor: HexColor('#457b9d'),
               inactiveColor: Colors.black),
         ],

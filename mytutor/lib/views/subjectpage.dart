@@ -7,7 +7,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import '../constant.dart';
 import '../model/subject.dart';
-import '../model/tutor.dart';
 
 class SubjectPage extends StatefulWidget {
   const SubjectPage({

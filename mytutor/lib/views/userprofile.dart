@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../constant.dart';
 import '../model/user.dart';
 
 class UserProfile extends StatefulWidget {
