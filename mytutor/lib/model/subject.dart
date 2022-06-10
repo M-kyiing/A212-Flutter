@@ -4,7 +4,8 @@ class Subject {
   String? subDesc;
   String? subPrice;
   String? subSessions;
-  String? subImage;
+  String? subRating;
+  String? tutorID;
 
   Subject(
       {this.subID,
@@ -12,25 +13,29 @@ class Subject {
       this.subDesc,
       this.subPrice,
       this.subSessions,
-      this.subImage});
+      this.subRating,
+      this.tutorID});
 
   Subject.fromJson(Map<String, dynamic> json) {
-    subID = json['subID'];
-    subName = json['subName'];
-    subDesc = json['subDesc'];
-    subPrice = json['subPrice'];
-    subSessions = json['subSessions'];
-    subImage = json['subImage'];
+    subID = json['subject_id'];
+    subName = json['subject_name'];
+    subDesc = json['subject_description'];
+    subPrice = json['subject_price'];
+    tutorID = json['tutor_id'];
+    subSessions = json['subject_sessions'];
+    subRating = json['subject_rating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['subID'] = subID;
-    data['subName'] = subName;
-    data['subDesc'] = subDesc;
-    data['subPrice'] = subPrice;
-    data['subSessions'] = subSessions;
-    data['subImage'] = subImage;
+    data['subject_id'] = subID;
+    data['subject_name'] = subName;
+    data['subject_description'] = subDesc;
+    data['subject_price'] = subPrice;
+    data['tutor_id'] = tutorID;
+    data['subject_sessions'] = subSessions;
+    data['subject_rating'] = subRating;
+
     return data;
   }
 }

@@ -18,7 +18,7 @@ if ($conn->query($sqlinsert) === TRUE) {
     $response = array('status' => 'success', 'data' => null);
     $filename = mysqli_insert_id($conn);
     $decoded_string = base64_decode($base64image);
-    $path = '../images/userpic' . $filename . '.png';
+    $path = '../images/userpic/' . $filename . '.png';
     $is_written = file_put_contents($path, $decoded_string);
     sendJsonResponse($response);
 } else {

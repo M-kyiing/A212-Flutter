@@ -2,34 +2,34 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
+
 import '../constant.dart';
-import '../model/subject.dart';
 import '../model/tutor.dart';
 
-class SubjectPage extends StatefulWidget {
-  const SubjectPage({
+class TutorPage extends StatefulWidget {
+  const TutorPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SubjectPage> createState() => _SubjectPageState();
+  State<TutorPage> createState() => _TutorPageState();
 }
 
-class _SubjectPageState extends State<SubjectPage> {
-  List<Subject> subjectList = <Subject>[];
+class _TutorPageState extends State<TutorPage> {
+  List<Tutor> tutorList = <Tutor>[];
   late double screenHeight, screenWidth, resWidth;
   String search = "";
   String titlecenter = "Loading...";
-  TextEditingController searchCont = TextEditingController();
   var numofpage, curpage = 1;
   var color, _tapPosition;
+  TextEditingController searchCont = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    _loadSubject(1, search);
+    _loadTutors(1, search);
   }
 
   @override
@@ -38,15 +38,13 @@ class _SubjectPageState extends State<SubjectPage> {
     screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth <= 600) {
       resWidth = screenWidth;
-      //rowcount = 2;
     } else {
       resWidth = screenWidth * 0.75;
-      //rowcount = 3;
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Tutor - Subject'),
         automaticallyImplyLeading: false,
+        title: const Text('My Tutor - Tutor Profile'),
         backgroundColor: HexColor('#457b9d'),
         actions: [
           IconButton(
@@ -57,7 +55,7 @@ class _SubjectPageState extends State<SubjectPage> {
           )
         ],
       ),
-      body: subjectList.isEmpty
+      body: tutorList.isEmpty
           ? Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Column(
@@ -72,20 +70,20 @@ class _SubjectPageState extends State<SubjectPage> {
           : Column(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: Text(titlecenter = "Available Subjects",
+                child: Text(titlecenter = "Available Tutors",
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold)),
               ),
-              const SizedBox(height: 10),
               Expanded(
                   child: GridView.count(
                       crossAxisCount: 2,
                       childAspectRatio: (1 / 1.3),
-                      children: List.generate(subjectList.length, (index) {
+                      children: List.generate(tutorList.length, (index) {
                         return InkWell(
-                          onTap: () => {_loadSubjectDetails(index)},
+                          onTap: () => {_loadTutorDetails(index)},
                           onTapDown: _storePosition,
                           child: Card(
+                              margin: EdgeInsets.all(7),
                               color: HexColor('#dddddf'),
                               elevation: 5,
                               shape: RoundedRectangleBorder(
@@ -93,24 +91,20 @@ class _SubjectPageState extends State<SubjectPage> {
                               ),
                               child: Column(
                                 children: [
-                                  Flexible(
-                                    flex: 6,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: CachedNetworkImage(
-                                        imageUrl: CONSTANTS.server +
-                                            "/mytutor/images/courses/" +
-                                            subjectList[index]
-                                                .subID
-                                                .toString() +
-                                            '.png',
-                                        fit: BoxFit.cover,
-                                        width: resWidth,
-                                        placeholder: (context, url) =>
-                                            const LinearProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      ),
+                                  ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl: CONSTANTS.server +
+                                          "/mytutor/images/tutors/" +
+                                          tutorList[index].tutorID.toString() +
+                                          '.jpg',
+                                      width: 130.0,
+                                      height: 130.0,
+                                      fit: BoxFit.cover,
+                                      // width: resWidth,
+                                      placeholder: (context, url) =>
+                                          const LinearProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
                                   ),
                                   Flexible(
@@ -119,8 +113,8 @@ class _SubjectPageState extends State<SubjectPage> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              subjectList[index]
-                                                  .subName
+                                              tutorList[index]
+                                                  .tutorName
                                                   .toString(),
                                               style: const TextStyle(
                                                 fontSize: 16,
@@ -128,43 +122,10 @@ class _SubjectPageState extends State<SubjectPage> {
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
-                                            Text("RM " +
-                                                double.parse(subjectList[index]
-                                                        .subPrice
-                                                        .toString())
-                                                    .toStringAsFixed(2)),
-                                            Text(subjectList[index]
-                                                    .subSessions
-                                                    .toString() +
-                                                " sessions"),
-                                            Text("Rating: " +
-                                                subjectList[index]
-                                                    .subRating
+                                            Text("\n" +
+                                                tutorList[index]
+                                                    .tutorEmail
                                                     .toString()),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    IconButton(
-                                                        onPressed: () {},
-                                                        icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .bookMedical)),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    IconButton(
-                                                        onPressed: () {},
-                                                        icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .heartCirclePlus)),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
                                           ],
                                         ),
                                       ))
@@ -187,7 +148,7 @@ class _SubjectPageState extends State<SubjectPage> {
                     return SizedBox(
                       width: 40,
                       child: TextButton(
-                          onPressed: () => {_loadSubject(index + 1, "")},
+                          onPressed: () => {_loadTutors(index + 1, "")},
                           child: Text(
                             (index + 1).toString(),
                             style: TextStyle(color: color),
@@ -200,10 +161,10 @@ class _SubjectPageState extends State<SubjectPage> {
     );
   }
 
-  void _loadSubject(int pageno, String _search) {
+  void _loadTutors(int pageno, String _search) {
     curpage = pageno;
     numofpage ?? 1;
-    http.post(Uri.parse(CONSTANTS.server + "/mytutor/php/load_subject.php"),
+    http.post(Uri.parse(CONSTANTS.server + "/mytutor/php/load_tutor.php"),
         body: {
           'pageno': pageno.toString(),
           'search': _search,
@@ -220,27 +181,27 @@ class _SubjectPageState extends State<SubjectPage> {
       if (response.statusCode == 200 && jsondata['status'] == 'success') {
         var extractdata = jsondata['data'];
         numofpage = int.parse(jsondata['numofpage']);
-        if (extractdata['subjects'] != null) {
-          titlecenter = "Available Subjects";
-          subjectList = <Subject>[];
-          extractdata['subjects'].forEach((v) {
-            subjectList.add(Subject.fromJson(v));
+        if (extractdata['tutors'] != null) {
+          titlecenter = "Available Tutors";
+          tutorList = <Tutor>[];
+          extractdata['tutors'].forEach((v) {
+            tutorList.add(Tutor.fromJson(v));
           });
         } else {
-          titlecenter = "No Subject Available";
-          subjectList.clear();
+          titlecenter = "No Tutor Available";
+          tutorList.clear();
         }
         setState(() {});
       } else {
         //do something
-        titlecenter = "No Subject Available";
-        subjectList.clear();
+        titlecenter = "No Tutor Available";
+        tutorList.clear();
         setState(() {});
       }
     });
   }
 
-  _loadSubjectDetails(int index) {
+  _loadTutorDetails(int index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -256,8 +217,8 @@ class _SubjectPageState extends State<SubjectPage> {
               children: [
                 CachedNetworkImage(
                   imageUrl: CONSTANTS.server +
-                      "/mytutor/images/courses/" +
-                      subjectList[index].subID.toString() +
+                      "/mytutor/images/tutors/" +
+                      tutorList[index].tutorID.toString() +
                       '.png',
                   fit: BoxFit.cover,
                   width: resWidth,
@@ -266,21 +227,14 @@ class _SubjectPageState extends State<SubjectPage> {
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
                 Text(
-                  subjectList[index].subName.toString(),
+                  tutorList[index].tutorName.toString(),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Subject Description: \n" +
-                      subjectList[index].subDesc.toString() +
+                  Text("Tutor Description: \n" +
+                      tutorList[index].tutorDesc.toString() +
                       "\n"),
-                  Text("Subject Price: RM " +
-                      double.parse(subjectList[index].subPrice.toString())
-                          .toStringAsFixed(2) +
-                      "\n"),
-                  Text("Subject Sessions: " +
-                      subjectList[index].subSessions.toString() +
-                      " sessions"),
                 ])
               ],
             )),
@@ -335,7 +289,7 @@ class _SubjectPageState extends State<SubjectPage> {
                     onPressed: () {
                       search = searchCont.text;
                       Navigator.of(context).pop();
-                      _loadSubject(1, search);
+                      _loadTutors(1, search);
                     },
                     child: const Text("Search"),
                   )
