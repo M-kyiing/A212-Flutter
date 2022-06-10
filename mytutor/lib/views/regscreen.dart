@@ -43,6 +43,7 @@ class _RegisterScState extends State<RegisterSc> {
     }
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: HexColor('#457b9d'),
         title: const Text('MY TUTOR -- User Registration'),
       ),
