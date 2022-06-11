@@ -10,7 +10,7 @@ class SubPage extends StatelessWidget {
       title: 'My Tutor - Subscribe',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My Tutor - Subscribe'),
+          title: const Text('My Tutor - Subscribe'),
           backgroundColor: HexColor('#457b9d'),
         ),
         body: const Padding(

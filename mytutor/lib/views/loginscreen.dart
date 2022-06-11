@@ -3,12 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mytutor/views/regscreen.dart';
-import 'package:mytutor/views/subjectpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../constant.dart';
 import '../model/subject.dart';
-import '../model/tutor.dart';
 import '../model/user.dart';
 import 'mainPage.dart';
 
@@ -233,7 +231,6 @@ class _LoginPageState extends State<LoginPage> {
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == 'success') {
           User user = User.fromJson(data['data']);
-          Subject subject = Subject.fromJson(data['data']);
           Fluttertoast.showToast(
               msg: "Login Success",
               toastLength: Toast.LENGTH_SHORT,
