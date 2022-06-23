@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../model/user.dart';
+import 'loginscreen.dart';
 
 class UserProfile extends StatefulWidget {
   // final User user;
@@ -46,32 +47,7 @@ class _UserProfileState extends State<UserProfile> {
                 backgroundImage: const AssetImage('assets/images/profile.jpeg'),
               ),
             ),
-            //_buildList(),
           ]),
     );
   }
 }
-//   Widget _buildList() {
-//     return ListView(
-//       padding: const EdgeInsets.all(10),
-//       children: [
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Column(
-//               children: [
-//                 InkWell(
-//                   child: Container(
-//                     decoration: BoxDecoration(
-//                       color: HexColor('#457b9d'),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }

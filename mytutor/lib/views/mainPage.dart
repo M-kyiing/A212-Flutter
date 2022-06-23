@@ -68,22 +68,22 @@ class _MainPageState extends State<MainPage> {
           BottomNavyBarItem(
               title: const Text('Tutors'),
               icon: const FaIcon(FontAwesomeIcons.chalkboardUser),
-              activeColor: HexColor('#457b9d'),
+              activeColor: HexColor('#9f86c0'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
               title: const Text('Subscribe'),
               icon: const FaIcon(FontAwesomeIcons.bookMedical),
-              activeColor: HexColor('#457b9d'),
+              activeColor: HexColor('#e63946'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
               title: const Text('Favourite'),
               icon: const FaIcon(FontAwesomeIcons.heartCirclePlus),
-              activeColor: HexColor('#457b9d'),
+              activeColor: HexColor('#ff8fa3'),
               inactiveColor: Colors.black),
           BottomNavyBarItem(
               title: const Text('Profile'),
               icon: const FaIcon(FontAwesomeIcons.user),
-              activeColor: HexColor('#457b9d'),
+              activeColor: HexColor('#89b0ae'),
               inactiveColor: Colors.black),
         ],
       ),

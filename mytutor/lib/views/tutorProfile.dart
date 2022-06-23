@@ -25,11 +25,14 @@ class _TutorPageState extends State<TutorPage> {
   var numofpage, curpage = 1;
   var color, _tapPosition;
   TextEditingController searchCont = TextEditingController();
-
+  GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
   @override
   void initState() {
     super.initState();
-    _loadTutors(1, search);
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _loadTutors(1, search);
+    });
   }
 
   @override
@@ -72,13 +75,18 @@ class _TutorPageState extends State<TutorPage> {
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Text(titlecenter = "Available Tutors",
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                        fontSize: 20, fontWeight: FontWeight.bold)),
               ),
               Expanded(
-                  child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: (1 / 1.3),
-                      children: List.generate(tutorList.length, (index) {
+                  child: RefreshIndicator(
+                      key: refreshKey,
+                      onRefresh: () async {
+                        _loadTutors(1, search);
+                      },
+                      child: ListView(
+                          // crossAxisCount: 1,
+                          // childAspectRatio: (1 / 0.6),
+                          children: List.generate(tutorList.length, (index) {
                         return InkWell(
                           onTap: () => {_loadTutorDetails(index)},
                           onTapDown: _storePosition,
@@ -89,50 +97,63 @@ class _TutorPageState extends State<TutorPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Column(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ClipOval(
-                                    child: CachedNetworkImage(
-                                      imageUrl: CONSTANTS.server +
-                                          "/mytutor/images/tutors/" +
-                                          tutorList[index].tutorID.toString() +
-                                          '.jpg',
-                                      width: 130.0,
-                                      height: 130.0,
-                                      fit: BoxFit.cover,
-                                      // width: resWidth,
-                                      placeholder: (context, url) =>
-                                          const LinearProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    height: 120,
+                                    child: ClipOval(
+                                      child: CachedNetworkImage(
+                                        imageUrl: CONSTANTS.server +
+                                            "/mytutor/images/tutors/" +
+                                            tutorList[index]
+                                                .tutorID
+                                                .toString() +
+                                            '.jpg',
+                                        width: 100.0,
+                                        height: 100.0,
+                                        fit: BoxFit.cover,
+                                        // width: resWidth,
+                                        placeholder: (context, url) =>
+                                            const LinearProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
                                     ),
                                   ),
-                                  Flexible(
-                                      flex: 4,
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              tutorList[index]
-                                                  .tutorName
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            Text("\n" +
-                                                tutorList[index]
-                                                    .tutorEmail
-                                                    .toString()),
-                                          ],
+                                  SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          tutorList[index].tutorName.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                          softWrap: true,
                                         ),
-                                      ))
+                                        Text(
+                                          "\nContact Information: \n" +
+                                              tutorList[index]
+                                                  .tutorEmail
+                                                  .toString(),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Text(tutorList[index]
+                                                .tutorPhone
+                                                .toString() +
+                                            "\n")
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
                                 ],
                               )),
                         );
-                      }))),
+                      })))),
               SizedBox(
                 height: 30,
                 child: ListView.builder(
@@ -209,7 +230,7 @@ class _TutorPageState extends State<TutorPage> {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             title: const Text(
-              "Subject Details",
+              "Tutor Details",
               style: TextStyle(),
             ),
             content: SingleChildScrollView(
@@ -219,7 +240,7 @@ class _TutorPageState extends State<TutorPage> {
                   imageUrl: CONSTANTS.server +
                       "/mytutor/images/tutors/" +
                       tutorList[index].tutorID.toString() +
-                      '.png',
+                      '.jpg',
                   fit: BoxFit.cover,
                   width: resWidth,
                   placeholder: (context, url) =>
@@ -230,10 +251,14 @@ class _TutorPageState extends State<TutorPage> {
                   tutorList[index].tutorName.toString(),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
+                  softWrap: true,
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Tutor Description: \n" +
+                  Text("\nTutor Description: \n" +
                       tutorList[index].tutorDesc.toString() +
+                      "\n"),
+                  Text("Incharge Courses: \n" +
+                      tutorList[index].subjectName.toString() +
                       "\n"),
                 ])
               ],
@@ -258,6 +283,7 @@ class _TutorPageState extends State<TutorPage> {
   }
 
   void _loadSearchDialog() {
+    searchCont.text = "";
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -276,7 +302,7 @@ class _TutorPageState extends State<TutorPage> {
                       TextField(
                         controller: searchCont,
                         decoration: InputDecoration(
-                            labelText: 'Search',
+                            labelText: 'Enter Tutor Name',
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0))),
                       ),

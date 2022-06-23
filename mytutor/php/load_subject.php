@@ -10,7 +10,10 @@ $pageno = (int)$_POST['pageno'];
 $search = $_POST['search'];
 $page_first_result = ($pageno - 1) * $results_per_page;
 
-$sqlloadsubject = "SELECT * FROM tbl_subjects WHERE subject_name LIKE '%$search%'";
+$sqlloadsubject = "SELECT tbl_subjects.subject_id, tbl_subjects.subject_name, tbl_subjects.subject_description, tbl_subjects.subject_price, 
+tbl_subjects.subject_sessions, tbl_subjects.subject_rating, tbl_tutors.tutor_id, tbl_tutors.tutor_name
+FROM tbl_subjects INNER JOIN tbl_tutors ON tbl_subjects.tutor_id = tbl_tutors.tutor_id WHERE tbl_subjects.subject_name LIKE '%$search%'";
+
 
 $result = $conn->query($sqlloadsubject);
 $number_of_result = $result->num_rows;
@@ -26,6 +29,7 @@ if ($result->num_rows > 0) {
         $sublist['subject_description'] = $row['subject_description'];
         $sublist['subject_price'] = $row['subject_price'];
         $sublist['tutor_id'] = $row['tutor_id'];
+        $sublist['tutor_name'] = $row['tutor_name'];
         $sublist['subject_sessions'] = $row['subject_sessions'];
         $sublist['subject_rating'] = $row['subject_rating'];
         array_push($subjects["subjects"],$sublist);
