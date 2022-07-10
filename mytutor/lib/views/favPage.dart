@@ -10,7 +10,7 @@ class FavPage extends StatelessWidget {
       title: 'My Tutor - Favourite',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My Tutor - Favourite'),
+          title: const Text('My Tutor - Favourite'),
           backgroundColor: HexColor('#457b9d'),
         ),
         body: const Padding(

@@ -107,7 +107,7 @@ class _TutorPageState extends State<TutorPage> {
                                     child: ClipOval(
                                       child: CachedNetworkImage(
                                         imageUrl: CONSTANTS.server +
-                                            "/mytutor/images/tutors/" +
+                                            "/276984/mytutor/images/tutors/" +
                                             tutorList[index]
                                                 .tutorID
                                                 .toString() +
@@ -185,7 +185,8 @@ class _TutorPageState extends State<TutorPage> {
   void _loadTutors(int pageno, String _search) {
     curpage = pageno;
     numofpage ?? 1;
-    http.post(Uri.parse(CONSTANTS.server + "/mytutor/php/load_tutor.php"),
+    http.post(
+        Uri.parse(CONSTANTS.server + "/276984/mytutor/php/load_tutor.php"),
         body: {
           'pageno': pageno.toString(),
           'search': _search,
@@ -238,7 +239,7 @@ class _TutorPageState extends State<TutorPage> {
               children: [
                 CachedNetworkImage(
                   imageUrl: CONSTANTS.server +
-                      "/mytutor/images/tutors/" +
+                      "/276984/mytutor/images/tutors/" +
                       tutorList[index].tutorID.toString() +
                       '.jpg',
                   fit: BoxFit.cover,

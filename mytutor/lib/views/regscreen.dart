@@ -346,7 +346,7 @@ class _RegisterScState extends State<RegisterSc> {
 
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      http.post(Uri.parse(CONSTANTS.server + "/mytutor/php/userReg.php"),
+      http.post(Uri.parse(CONSTANTS.server + "/276984/mytutor/php/userReg.php"),
           body: {
             'name': name,
             'email': email,

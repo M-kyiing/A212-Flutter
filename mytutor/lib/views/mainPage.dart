@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:mytutor/model/user.dart';
 import 'package:mytutor/views/subjectpage.dart';
 import 'package:mytutor/views/subscribe.dart';
 import 'package:mytutor/views/tutorProfile.dart';
 import 'package:mytutor/views/userprofile.dart';
-import 'favPage.dart';
+import 'favpage.dart';
 
 class MainPage extends StatefulWidget {
+  final User user;
   const MainPage({
     Key? key,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -20,19 +23,22 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   late PageController _pageController;
-  final screens = [
-    const SubjectPage(),
+
+  late var screens = [
+    SubjectPage(
+      user: widget.user,
+    ),
     const TutorPage(),
     const SubPage(),
     const FavPage(),
     const UserProfile(),
   ];
+
   late double screenHeight, screenWidth, resWidth;
 
   @override
   void initState() {
     super.initState();
-    // _loadSubject(1, search);
     _pageController = PageController();
   }
 

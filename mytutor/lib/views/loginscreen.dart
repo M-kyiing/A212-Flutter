@@ -6,7 +6,6 @@ import 'package:mytutor/views/regscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../constant.dart';
-import '../model/subject.dart';
 import '../model/user.dart';
 import 'mainPage.dart';
 
@@ -226,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
     String _password = _passwordController.text;
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      http.post(Uri.parse(CONSTANTS.server + "/mytutor/php/login.php"),
+      http.post(Uri.parse(CONSTANTS.server + "/276984/mytutor/php/login.php"),
           body: {"email": _email, "pass": _password}).then((response) {
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == 'success') {
@@ -237,8 +236,12 @@ class _LoginPageState extends State<LoginPage> {
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 16.0);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (content) => const MainPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (content) => MainPage(
+                        user: user,
+                      )));
         } else {
           Fluttertoast.showToast(
               msg: "Failed",
